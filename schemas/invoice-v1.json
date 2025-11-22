@@ -1,0 +1,546 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Universal Invoice Schema V1.1",
+    "type": "object",
+    "required": [
+        "invoiceNumber",
+        "invoiceDate",
+        "currency",
+        "seller",
+        "buyer",
+        "lines",
+        "monetaryTotals"
+    ],
+    "properties": {
+        "ublVersion": {
+            "type": "string",
+            "default": "2.1"
+        },
+        "customizationId": {
+            "type": "string"
+        },
+        "profileId": {
+            "type": "string"
+        },
+        "invoiceTypeCode": {
+            "type": "string",
+            "default": "380"
+        },
+        "invoiceNumber": {
+            "type": "string"
+        },
+        "invoiceDate": {
+            "type": "string",
+            "format": "date"
+        },
+        "dueDate": {
+            "type": "string",
+            "format": "date"
+        },
+        "taxPointDate": {
+            "type": "string",
+            "format": "date"
+        },
+        "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+        },
+        "notes": {
+            "type": "string"
+        },
+        "accountingCost": {
+            "type": "string"
+        },
+        "invoicePeriod": {
+            "type": "object",
+            "properties": {
+                "startDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "endDate": {
+                    "type": "string",
+                    "format": "date"
+                }
+            }
+        },
+        "orderReference": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "contractReference": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "documentType": {
+                    "type": "string"
+                }
+            }
+        },
+        "additionalDocuments": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "documentType": {
+                        "type": "string"
+                    },
+                    "uri": {
+                        "type": "string"
+                    },
+                    "embeddedBase64": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "seller": {
+            "type": "object",
+            "required": [
+                "name",
+                "address"
+            ],
+            "properties": {
+                "endpointId": {
+                    "type": "string"
+                },
+                "identifiers": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "schemeId": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "legalName": {
+                    "type": "string"
+                },
+                "vatNumber": {
+                    "type": "string"
+                },
+                "taxScheme": {
+                    "type": "object",
+                    "properties": {
+                        "companyId": {
+                            "type": "string"
+                        },
+                        "schemeId": {
+                            "type": "string"
+                        },
+                        "taxSchemeId": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "registration": {
+                    "type": "object",
+                    "properties": {
+                        "registrationName": {
+                            "type": "string"
+                        },
+                        "companyId": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "address": {
+                    "type": "object",
+                    "required": [
+                        "street",
+                        "city",
+                        "country"
+                    ],
+                    "properties": {
+                        "street": {
+                            "type": "string"
+                        },
+                        "additionalStreet": {
+                            "type": "string"
+                        },
+                        "buildingNumber": {
+                            "type": "string"
+                        },
+                        "postbox": {
+                            "type": "string"
+                        },
+                        "department": {
+                            "type": "string"
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "postalCode": {
+                            "type": "string"
+                        },
+                        "countrySubentity": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "contact": {
+                    "type": "object",
+                    "properties": {
+                        "email": {
+                            "type": "string"
+                        },
+                        "telephone": {
+                            "type": "string"
+                        },
+                        "fax": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "buyer": {
+            "type": "object",
+            "required": [
+                "name",
+                "address"
+            ],
+            "properties": {
+                "endpointId": {
+                    "type": "string"
+                },
+                "identifiers": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "schemeId": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "legalName": {
+                    "type": "string"
+                },
+                "vatNumber": {
+                    "type": "string"
+                },
+                "taxScheme": {
+                    "type": "object",
+                    "properties": {
+                        "companyId": {
+                            "type": "string"
+                        },
+                        "schemeId": {
+                            "type": "string"
+                        },
+                        "taxSchemeId": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "registration": {
+                    "type": "object",
+                    "properties": {
+                        "registrationName": {
+                            "type": "string"
+                        },
+                        "companyId": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "address": {
+                    "type": "object",
+                    "required": [
+                        "street",
+                        "city",
+                        "country"
+                    ],
+                    "properties": {
+                        "street": {
+                            "type": "string"
+                        },
+                        "additionalStreet": {
+                            "type": "string"
+                        },
+                        "postbox": {
+                            "type": "string"
+                        },
+                        "buildingNumber": {
+                            "type": "string"
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "department": {
+                            "type": "string"
+                        },
+                        "postalCode": {
+                            "type": "string"
+                        },
+                        "countrySubentity": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "contact": {
+                    "type": "object",
+                    "properties": {
+                        "email": {
+                            "type": "string"
+                        },
+                        "telephone": {
+                            "type": "string"
+                        },
+                        "fax": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "payee": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "registration": {
+                    "type": "object",
+                    "properties": {
+                        "companyId": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "delivery": {
+            "type": "object",
+            "properties": {
+                "actualDeliveryDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "locationId": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "object",
+                    "properties": {
+                        "street": {
+                            "type": "string"
+                        },
+                        "additionalStreet": {
+                            "type": "string"
+                        },
+                        "buildingNumber": {
+                            "type": "string"
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "postalCode": {
+                            "type": "string"
+                        },
+                        "countrySubentity": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "payment": {
+            "type": "object",
+            "properties": {
+                "paymentMeansCode": {
+                    "type": "string"
+                },
+                "paymentDueDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "paymentChannelCode": {
+                    "type": "string"
+                },
+                "paymentId": {
+                    "type": "string"
+                },
+                "iban": {
+                    "type": "string"
+                },
+                "bic": {
+                    "type": "string"
+                },
+                "termsNote": {
+                    "type": "string"
+                }
+            }
+        },
+        "allowancesCharges": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "chargeIndicator": {
+                        "type": "boolean"
+                    },
+                    "reason": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "taxSummary": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "rate": {
+                        "type": "number"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "taxableAmount": {
+                        "type": "number"
+                    },
+                    "taxAmount": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "monetaryTotals": {
+            "type": "object",
+            "required": [
+                "taxExclusiveAmount",
+                "taxAmount",
+                "payableAmount"
+            ],
+            "properties": {
+                "lineExtensionAmount": {
+                    "type": "number"
+                },
+                "taxExclusiveAmount": {
+                    "type": "number"
+                },
+                "taxInclusiveAmount": {
+                    "type": "number"
+                },
+                "allowanceTotalAmount": {
+                    "type": "number"
+                },
+                "chargeTotalAmount": {
+                    "type": "number"
+                },
+                "prepaidAmount": {
+                    "type": "number"
+                },
+                "roundingAmount": {
+                    "type": "number"
+                },
+                "taxAmount": {
+                    "type": "number"
+                },
+                "payableAmount": {
+                    "type": "number"
+                }
+            }
+        },
+        "lines": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "quantity",
+                    "lineExtensionAmount"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "type": "number"
+                    },
+                    "unitCode": {
+                        "type": "string"
+                    },
+                    "lineExtensionAmount": {
+                        "type": "number"
+                    },
+                    "accountingCost": {
+                        "type": "string"
+                    },
+                    "taxTotal": {
+                        "type": "object",
+                        "properties": {
+                            "taxAmount": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "productId": {
+                        "type": "string"
+                    },
+                    "standardProductId": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "object",
+                        "properties": {
+                            "priceAmount": {
+                                "type": "number"
+                            },
+                            "baseQuantity": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

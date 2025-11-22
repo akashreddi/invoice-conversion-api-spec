@@ -1,0 +1,192 @@
+JSON Field, UBL/XRechnung XML Path
+
+# =========================
+# HEADER FIELDS
+# =========================
+ublVersion, cbc:UBLVersionID
+customizationId, cbc:CustomizationID
+profileId, cbc:ProfileID
+invoiceTypeCode, cbc:InvoiceTypeCode
+invoiceNumber, cbc:ID
+invoiceDate, cbc:IssueDate
+dueDate, cbc:DueDate
+taxPointDate, cbc:TaxPointDate
+currency, cbc:DocumentCurrencyCode
+notes, cbc:Note
+accountingCost, cbc:AccountingCost
+
+# Invoice Period
+invoicePeriod.startDate, cac:InvoicePeriod/cbc:StartDate
+invoicePeriod.endDate, cac:InvoicePeriod/cbc:EndDate
+
+# Order Reference
+orderReference.id, cac:OrderReference/cbc:ID
+
+# Contract Reference
+contractReference.id, cac:ContractDocumentReference/cbc:ID
+contractReference.documentType, cac:ContractDocumentReference/cbc:DocumentType
+
+# Additional Documents
+additionalDocuments[].id, cac:AdditionalDocumentReference/cbc:ID
+additionalDocuments[].documentType, cac:AdditionalDocumentReference/cbc:DocumentType
+additionalDocuments[].uri, cac:AdditionalDocumentReference/cac:Attachment/cac:ExternalReference/cbc:URI
+additionalDocuments[].embeddedBase64, cac:AdditionalDocumentReference/cac:Attachment/cbc:EmbeddedDocumentBinaryObject
+
+# =========================
+# SELLER PARTY
+# =========================
+
+seller.endpointId, cac:AccountingSupplierParty/cac:Party/cbc:EndpointID
+
+seller.identifiers[].id, cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID
+seller.identifiers[].schemeId, cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeID
+
+seller.name, cac:AccountingSupplierParty/cac:Party/cac:PartyName/cbc:Name
+seller.legalName, cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName
+
+seller.vatNumber, cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID
+
+seller.taxScheme.companyId, cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID
+seller.taxScheme.schemeId, cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID/@schemeID
+seller.taxScheme.taxSchemeId, cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cac:TaxScheme/cbc:ID
+
+seller.registration.registrationName, cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName
+seller.registration.companyId, cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID
+
+# Seller Address
+seller.address.street, cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:StreetName
+seller.address.additionalStreet, cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:AdditionalStreetName
+seller.address.postbox, cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:Postbox
+seller.address.buildingNumber, cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:BuildingNumber
+seller.address.department, cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:Department
+seller.address.city, cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CityName
+seller.address.postalCode, cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:PostalZone
+seller.address.countrySubentity, cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cbc:CountrySubentity
+seller.address.country, cac:AccountingSupplierParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode
+
+# Seller Contact
+seller.contact.email, cac:AccountingSupplierParty/cac:Party/cac:Contact/cbc:ElectronicMail
+seller.contact.telephone, cac:AccountingSupplierParty/cac:Party/cac:Contact/cbc:Telephone
+seller.contact.fax, cac:AccountingSupplierParty/cac:Party/cac:Contact/cbc:Telefax
+
+# =========================
+# BUYER PARTY
+# =========================
+
+buyer.endpointId, cac:AccountingCustomerParty/cac:Party/cbc:EndpointID
+
+buyer.identifiers[].id, cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID
+buyer.identifiers[].schemeId, cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeID
+
+buyer.name, cac:AccountingCustomerParty/cac:Party/cac:PartyName/cbc:Name
+buyer.legalName, cac:AccountingCustomerParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName
+
+buyer.vatNumber, cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID
+
+buyer.taxScheme.companyId, cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID
+buyer.taxScheme.schemeId, cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID/@schemeID
+buyer.taxScheme.taxSchemeId, cac:AccountingCustomerParty/cac:Party/cac:PartyTaxScheme/cac:TaxScheme/cbc:ID
+
+buyer.registration.registrationName, cac:AccountingCustomerParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName
+buyer.registration.companyId, cac:AccountingCustomerParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID
+
+buyer.address.street, cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:StreetName
+buyer.address.additionalStreet, cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:AdditionalStreetName
+buyer.address.postbox, cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:Postbox
+buyer.address.buildingNumber, cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:BuildingNumber
+buyer.address.city, cac:AccountingCustomerParty/cac:Party/cac:PostalPostalAddress/cbc:CityName
+buyer.address.postalCode, cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:PostalZone
+buyer.address.countrySubentity, cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cbc:CountrySubentity
+buyer.address.country, cac:AccountingCustomerParty/cac:Party/cac:PostalAddress/cac:Country/cbc:IdentificationCode
+
+buyer.contact.email, cac:AccountingCustomerParty/cac:Party/cac:Contact/cbc:ElectronicMail
+buyer.contact.telephone, cac:AccountingCustomerParty/cac:Party/cac:Contact/cbc:Telephone
+buyer.contact.fax, cac:AccountingCustomerParty/cac:Party/cac:Contact/cbc:Telefax
+
+# =========================
+# PAYEE PARTY
+# =========================
+
+payee.id, cac:PayeeParty/cac:PartyIdentification/cbc:ID
+payee.name, cac:PayeeParty/cac:PartyName/cbc:Name
+payee.registration.companyId, cac:PayeeParty/cac:PartyLegalEntity/cbc:CompanyID
+
+# =========================
+# DELIVERY
+# =========================
+delivery.actualDeliveryDate, cac:Delivery/cbc:ActualDeliveryDate
+delivery.locationId, cac:Delivery/cac:DeliveryLocation/cbc:ID
+
+delivery.address.street, cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:StreetName
+delivery.address.additionalStreet, cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:AdditionalStreetName
+delivery.address.buildingNumber, cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:BuildingNumber
+delivery.address.city, cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:CityName
+delivery.address.postalCode, cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:PostalZone
+delivery.address.countrySubentity, cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:CountrySubentity
+delivery.address.country, cac:Delivery/cac:DeliveryLocation/cac:Address/cac:Country/cbc:IdentificationCode
+
+# =========================
+# PAYMENT
+# =========================
+
+payment.paymentMeansCode, cac:PaymentMeans/cbc:PaymentMeansCode
+payment.paymentDueDate, cac:PaymentMeans/cbc:PaymentDueDate
+payment.paymentChannelCode, cac:PaymentMeans/cbc:PaymentChannelCode
+payment.paymentId, cac:PaymentMeans/cbc:PaymentID
+
+payment.iban, cac:PaymentMeans/cac:PayeeFinancialAccount/cbc:ID
+payment.bic, cac:PaymentMeans/cac:PayeeFinancialAccount/cac:FinancialInstitutionBranch/cac:FinancialInstitution/cbc:ID
+
+payment.termsNote, cac:PaymentTerms/cbc:Note
+
+# =========================
+# ALLOWANCES & CHARGES
+# =========================
+allowancesCharges[].chargeIndicator, cac:AllowanceCharge/cbc:ChargeIndicator
+allowancesCharges[].reason, cac:AllowanceCharge/cbc:AllowanceChargeReason
+allowancesCharges[].amount, cac:AllowanceCharge/cbc:Amount
+
+# =========================
+# TAX SUMMARY (INVOICE-LEVEL)
+# =========================
+taxSummary[].taxableAmount, cac:TaxTotal/cac:TaxSubtotal/cbc:TaxableAmount
+taxSummary[].taxAmount, cac:TaxTotal/cac:TaxSubtotal/cbc:TaxAmount
+taxSummary[].category, cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:ID
+taxSummary[].rate, cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:Percent
+
+# =========================
+# MONETARY TOTALS
+# =========================
+
+monetaryTotals.lineExtensionAmount, cac:LegalMonetaryTotal/cbc:LineExtensionAmount
+monetaryTotals.taxExclusiveAmount, cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount
+monetaryTotals.taxInclusiveAmount, cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount
+monetaryTotals.allowanceTotalAmount, cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount
+monetaryTotals.chargeTotalAmount, cac:LegalMonetaryTotal/cbc:ChargeTotalAmount
+monetaryTotals.prepaidAmount, cac:LegalMonetaryTotal/cbc:PrepaidAmount
+monetaryTotals.roundingAmount, cac:LegalMonetaryTotal/cbc:PayableRoundingAmount
+monetaryTotals.payableAmount, cac:LegalMonetaryTotal/cbc:PayableAmount
+
+# =========================
+# LINES
+# =========================
+
+lines[].id, cac:InvoiceLine/cbc:ID
+lines[].description, cac:InvoiceLine/cac:Item/cbc:Description
+lines[].comment, cac:InvoiceLine/cbc:Note
+lines[].quantity, cac:InvoiceLine/cbc:InvoicedQuantity
+lines[].unitCode, cac:InvoiceLine/cbc:InvoicedQuantity/@unitCode
+lines[].lineExtensionAmount, cac:InvoiceLine/cbc:LineExtensionAmount
+lines[].accountingCost, cac:InvoiceLine/cbc:AccountingCost
+
+# Line tax
+lines[].taxTotal.taxAmount, cac:InvoiceLine/cac:TaxTotal/cbc:TaxAmount
+
+# Item Identifiers & Classifications
+lines[].productId, cac:InvoiceLine/cac:Item/cac:SellersItemIdentification/cbc:ID
+lines[].standardProductId, cac:InvoiceLine/cac:Item/cac:StandardItemIdentification/cbc:ID
+
+# Price
+lines[].price.priceAmount, cac:InvoiceLine/cac:Price/cbc:PriceAmount
+lines[].price.baseQuantity, cac:InvoiceLine/cac:Price/cac:BaseQuantity
+

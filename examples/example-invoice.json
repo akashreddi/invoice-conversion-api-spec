@@ -1,0 +1,166 @@
+{
+    "invoiceNumber": "INV-1001",
+    "invoiceDate": "2025-01-15",
+    "dueDate": "2025-01-30",
+    "taxPointDate": "2025-01-15",
+    "currency": "EUR",
+    "notes": "Thank you for your purchase.",
+    "accountingCost": "Project-Alpha-001",
+  
+    "invoicePeriod": {
+      "startDate": "2025-01-01",
+      "endDate": "2025-01-15"
+    },
+  
+    "orderReference": {
+      "id": "ORDER-7788"
+    },
+  
+    "seller": {
+      "endpointId": "1234567890123",
+      "identifiers": [
+        { "id": "SELLER001", "schemeId": "GLN" }
+      ],
+      "name": "Tech Supplies GmbH",
+      "legalName": "Tech Supplies Limited",
+      "vatNumber": "DE123456789",
+  
+      "address": {
+        "street": "Main Street 12",
+        "additionalStreet": "Building B",
+        "postbox": "PO123",
+        "buildingNumber": "12",
+        "department": "Sales Department",
+        "city": "Berlin",
+        "postalCode": "10115",
+        "countrySubentity": "Berlin",
+        "country": "DE"
+      },
+  
+      "contact": {
+        "email": "support@techsupplies.de",
+        "telephone": "+49 30 1234567",
+        "fax": "+49 30 1234568"
+      }
+    },
+  
+    "buyer": {
+      "endpointId": "9876543210000",
+      "identifiers": [
+        { "id": "BUYER001", "schemeId": "GLN" }
+      ],
+      "name": "Global Retail AG",
+      "legalName": "Global Retail Aktiengesellschaft",
+      "vatNumber": "DE998877665",
+  
+      "address": {
+        "street": "Hauptstrasse 55",
+        "additionalStreet": "",
+        "postbox": "PO789",
+        "buildingNumber": "55",
+        "department": "Accounting",
+        "city": "Munich",
+        "postalCode": "80331",
+        "countrySubentity": "Bavaria",
+        "country": "DE"
+      },
+  
+      "contact": {
+        "email": "billing@globalretail.de",
+        "telephone": "+49 89 567890",
+        "fax": "+49 89 567891"
+      }
+    },
+  
+    "delivery": {
+      "actualDeliveryDate": "2025-01-14",
+      "locationId": "LOC-445566",
+      "address": {
+        "street": "Warehouse Road 9",
+        "additionalStreet": "Dock 3",
+        "buildingNumber": "9",
+        "city": "Hamburg",
+        "postalCode": "20095",
+        "countrySubentity": "Hamburg",
+        "country": "DE"
+      }
+    },
+  
+    "payment": {
+      "paymentMeansCode": "31",
+      "paymentDueDate": "2025-01-30",
+      "paymentChannelCode": "IBAN",
+      "paymentId": "PAY-REF-1001",
+      "iban": "DE44500105175407324931",
+      "bic": "DEUTDEFFXXX",
+      "termsNote": "Payment due within 15 days."
+    },
+  
+    "allowancesCharges": [
+      {
+        "chargeIndicator": false,
+        "reason": "Loyalty Discount",
+        "amount": 10.00
+      }
+    ],
+  
+    "taxSummary": [
+      {
+        "taxableAmount": 100.00,
+        "taxAmount": 19.00,
+        "category": "S",
+        "rate": 19
+      }
+    ],
+  
+    "monetaryTotals": {
+      "lineExtensionAmount": 100.00,
+      "taxExclusiveAmount": 100.00,
+      "taxInclusiveAmount": 119.00,
+      "allowanceTotalAmount": 10.00,
+      "chargeTotalAmount": 0.00,
+      "prepaidAmount": 0.00,
+      "roundingAmount": 0.00,
+      "payableAmount": 109.00
+    },
+  
+    "lines": [
+      {
+        "id": "1",
+        "description": "USB-C Charging Cable (1m)",
+        "comment": "Black color",
+        "quantity": 2,
+        "unitCode": "C62",
+        "lineExtensionAmount": 20.00,
+        "accountingCost": "AC-001",
+        "taxTotal": {
+          "taxAmount": 3.80
+        },
+        "productId": "CBL-1001",
+        "standardProductId": "1234567890123",
+        "price": {
+          "priceAmount": 10.00,
+          "baseQuantity": 1
+        }
+      },
+      {
+        "id": "2",
+        "description": "Wireless Mouse",
+        "comment": "",
+        "quantity": 1,
+        "unitCode": "C62",
+        "lineExtensionAmount": 80.00,
+        "accountingCost": "AC-002",
+        "taxTotal": {
+          "taxAmount": 15.20
+        },
+        "productId": "MSE-2020",
+        "standardProductId": "9876543210000",
+        "price": {
+          "priceAmount": 80.00,
+          "baseQuantity": 1
+        }
+      }
+    ]
+  }
+  

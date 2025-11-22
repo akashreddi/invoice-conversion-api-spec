@@ -1,0 +1,87 @@
+{
+  "ublVersion": "2.1",
+  "profileId": "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0",
+  "invoiceTypeCode": "380",
+  "invoiceNumber": "INV-2025-0001",
+  "invoiceDate": "2025-11-22",
+  "currency": "EUR",
+  "seller": {
+    "name": "Seller Ltd",
+    "legalName": "Seller Limited",
+    "vatNumber": "DE123456789",
+    "registration": {
+      "registrationName": "Seller Limited",
+      "companyId": "HRB12345"
+    },
+    "address": {
+      "street": "Main Str 1",
+      "city": "Berlin",
+      "postalCode": "10115",
+      "country": "DE"
+    },
+    "contact": {
+      "email": "billing@seller.com",
+      "telephone": "+493012345"
+    }
+  },
+  "buyer": {
+    "name": "Buyer GmbH",
+    "vatNumber": "DE987654321",
+    "address": {
+      "street": "Client Ave 2",
+      "city": "Munich",
+      "postalCode": "80331",
+      "country": "DE"
+    },
+    "contact": { "email": "acct@buyer.com" }
+  },
+  "lines": [
+    {
+      "id": "1",
+      "description": "Blue Widget",
+      "quantity": 2,
+      "unitCode": "C62",
+      "price": { "priceAmount": 10.00, "baseQuantity": 1 },
+      "lineExtensionAmount": 20.00,
+      "taxTotal": { "taxAmount": 3.80 },
+      "productId": "BW-01",
+      "standardProductId": "0123456789012"
+    },
+    {
+      "id": "2",
+      "description": "Red Widget",
+      "quantity": 1,
+      "unitCode": "C62",
+      "price": { "priceAmount": 5.00, "baseQuantity": 1 },
+      "lineExtensionAmount": 5.00,
+      "taxTotal": { "taxAmount": 0.95 },
+      "productId": "RW-01",
+      "standardProductId": "0123456789013"
+    }
+  ],
+  "taxSummary": [
+    {
+      "rate": 19.0,
+      "category": "S",
+      "taxableAmount": 25.00,
+      "taxAmount": 4.75
+    }
+  ],
+  "monetaryTotals": {
+    "lineExtensionAmount": 25.00,
+    "taxExclusiveAmount": 25.00,
+    "taxInclusiveAmount": 29.75,
+    "taxAmount": 4.75,
+    "payableAmount": 29.75
+  },
+  "payment": {
+    "paymentMeansCode": "31",
+    "paymentDueDate": "2025-12-06",
+    "paymentChannelCode": "IBAN",
+    "paymentId": "PAY-REF-1001",
+    "iban": "DE12500105170648489890",
+    "bic": "INGDDEFF",
+    "termsNote": "30 days"
+  },
+  "notes": "Thank you for your business"
+}

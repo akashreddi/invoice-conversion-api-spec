@@ -1,0 +1,376 @@
+openapi: 3.0.3
+info:
+  title: Invoice Conversion API
+  version: 1.1.0
+  description: |
+    API for converting canonical Invoice JSON (InvoiceV1) to UBL/XRechnung and parsing/validating UBL.
+servers:
+  - url: https://api.yourproduct.com
+    description: Production
+  - url: https://staging.api.yourproduct.com
+    description: Staging
+
+paths:
+  /v1/invoices/convert:
+    post:
+      summary: Convert canonical invoice JSON to target format (xrechnung | ubl | facturx)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - target
+                - invoice
+              properties:
+                target:
+                  type: string
+                  enum: [xrechnung, ubl, facturx]
+                  description: Target output format
+                invoice:
+                  $ref: '#/components/schemas/InvoiceV1'
+                options:
+                  type: object
+                  properties:
+                    pretty:
+                      type: boolean
+                      description: Pretty-print XML
+                    embedPdf:
+                      type: boolean
+                      description: For facturx embed PDF
+      responses:
+        '200':
+          description: Conversion result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  format:
+                    type: string
+                    example: xrechnung
+                  content:
+                    type: string
+                    description: Base64 or plain XML content depending on client preference
+                  checksum:
+                    type: string
+                    example: sha256:abcd...
+  /v1/invoices/validate:
+    post:
+      summary: Validate JSON or XML against schema and business rules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - type
+                - content
+              properties:
+                type:
+                  type: string
+                  enum: [json, xml]
+                content:
+                  type: string
+                profile:
+                  type: string
+                  enum: [xrechnung, ubl]
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                  warnings:
+                    type: array
+                    items:
+                      type: string
+  /v1/invoices/parse:
+    post:
+      summary: Parse UBL/XML invoice into canonical JSON (InvoiceV1)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+                  description: UBL/XML invoice content
+      responses:
+        '200':
+          description: Parse result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoice:
+                    $ref: '#/components/schemas/InvoiceV1'
+                  warnings:
+                    type: array
+                    items: { type: string }
+
+components:
+  schemas:
+    InvoiceV1:
+      title: Universal Invoice Schema V1.1
+      type: object
+      required:
+        - invoiceNumber
+        - invoiceDate
+        - currency
+        - seller
+        - buyer
+        - lines
+        - monetaryTotals
+      properties:
+        ublVersion:
+          type: string
+          default: "2.1"
+        customizationId:
+          type: string
+        profileId:
+          type: string
+        invoiceTypeCode:
+          type: string
+          default: "380"
+        invoiceNumber:
+          type: string
+        invoiceDate:
+          type: string
+          format: date
+        dueDate:
+          type: string
+          format: date
+        taxPointDate:
+          type: string
+          format: date
+        currency:
+          type: string
+          pattern: "^[A-Z]{3}$"
+        notes:
+          type: string
+        accountingCost:
+          type: string
+        invoicePeriod:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+            endDate:
+              type: string
+              format: date
+        orderReference:
+          type: object
+          properties:
+            id: { type: string }
+        contractReference:
+          type: object
+          properties:
+            id: { type: string }
+            documentType: { type: string }
+        additionalDocuments:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              documentType: { type: string }
+              uri: { type: string }
+              embeddedBase64: { type: string }
+        seller:
+          type: object
+          required: [name, address]
+          properties:
+            endpointId: { type: string }
+            identifiers:
+              type: array
+              items:
+                type: object
+                properties:
+                  id: { type: string }
+                  schemeId: { type: string }
+            name: { type: string }
+            legalName: { type: string }
+            vatNumber: { type: string }
+            taxScheme:
+              type: object
+              properties:
+                companyId: { type: string }
+                schemeId: { type: string }
+                taxSchemeId: { type: string }
+            registration:
+              type: object
+              properties:
+                registrationName: { type: string }
+                companyId: { type: string }
+            address:
+              type: object
+              required: [street, city, country]
+              properties:
+                street: { type: string }
+                additionalStreet: { type: string }
+                buildingNumber: { type: string }
+                postbox: { type: string }
+                department: { type: string }
+                city: { type: string }
+                postalCode: { type: string }
+                countrySubentity: { type: string }
+                country: { type: string }
+            contact:
+              type: object
+              properties:
+                email: { type: string }
+                telephone: { type: string }
+                fax: { type: string }
+        buyer:
+          type: object
+          required: [name, address]
+          properties:
+            endpointId: { type: string }
+            identifiers:
+              type: array
+              items:
+                type: object
+                properties:
+                  id: { type: string }
+                  schemeId: { type: string }
+            name: { type: string }
+            legalName: { type: string }
+            vatNumber: { type: string }
+            taxScheme:
+              type: object
+              properties:
+                companyId: { type: string }
+                schemeId: { type: string }
+                taxSchemeId: { type: string }
+            registration:
+              type: object
+              properties:
+                registrationName: { type: string }
+                companyId: { type: string }
+            address:
+              type: object
+              required: [street, city, country]
+              properties:
+                street: { type: string }
+                additionalStreet: { type: string }
+                postbox: { type: string }
+                buildingNumber: { type: string }
+                city: { type: string }
+                department: { type: string }
+                postalCode: { type: string }
+                countrySubentity: { type: string }
+                country: { type: string }
+            contact:
+              type: object
+              properties:
+                email: { type: string }
+                telephone: { type: string }
+                fax: { type: string }
+        payee:
+          type: object
+          properties:
+            id: { type: string }
+            name: { type: string }
+            registration:
+              type: object
+              properties:
+                companyId: { type: string }
+        delivery:
+          type: object
+          properties:
+            actualDeliveryDate: { type: string, format: date }
+            locationId: { type: string }
+            address:
+              type: object
+              properties:
+                street: { type: string }
+                additionalStreet: { type: string }
+                buildingNumber: { type: string }
+                city: { type: string }
+                postalCode: { type: string }
+                countrySubentity: { type: string }
+                country: { type: string }
+        payment:
+          type: object
+          properties:
+            paymentMeansCode: { type: string }
+            paymentDueDate: { type: string, format: date }
+            paymentChannelCode: { type: string }
+            paymentId: { type: string }
+            iban: { type: string }
+            bic: { type: string }
+            termsNote: { type: string }
+        allowancesCharges:
+          type: array
+          items:
+            type: object
+            properties:
+              chargeIndicator: { type: boolean }
+              reason: { type: string }
+              amount: { type: number }
+        taxSummary:
+          type: array
+          items:
+            type: object
+            properties:
+              rate: { type: number }
+              category: { type: string }
+              taxableAmount: { type: number }
+              taxAmount: { type: number }
+        monetaryTotals:
+          type: object
+          required: [taxExclusiveAmount, taxAmount, payableAmount]
+          properties:
+            lineExtensionAmount: { type: number }
+            taxExclusiveAmount: { type: number }
+            taxInclusiveAmount: { type: number }
+            allowanceTotalAmount: { type: number }
+            chargeTotalAmount: { type: number }
+            prepaidAmount: { type: number }
+            roundingAmount: { type: number }
+            taxAmount: { type: number }
+            payableAmount: { type: number }
+        lines:
+          type: array
+          items:
+            type: object
+            required: [id, quantity, lineExtensionAmount]
+            properties:
+              id: { type: string }
+              description: { type: string }
+              comment: { type: string }
+              quantity: { type: number }
+              unitCode: { type: string }
+              lineExtensionAmount: { type: number }
+              accountingCost: { type: string }
+              taxTotal:
+                type: object
+                properties:
+                  taxAmount: { type: number }
+              productId: { type: string }
+              standardProductId: { type: string }
+              price:
+                type: object
+                properties:
+                  priceAmount: { type: number }
+                  baseQuantity: { type: number }
