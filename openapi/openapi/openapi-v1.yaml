@@ -1,28 +1,35 @@
 openapi: 3.0.3
+
 info:
   title: Invoice Conversion API
   version: 1.1.0
   description: |
-    API for converting canonical Invoice JSON (InvoiceV1) to UBL/XRechnung and parsing/validating UBL.
+    API for converting canonical Invoice JSON (InvoiceV1) into UBL 2.1 / XRechnung XML,
+    validating data, and parsing UBL/XML back into canonical JSON.
+
 servers:
-  - url: https://api.yourproduct.com
+  - url: https://api.henosis.com
     description: Production
-  - url: https://staging.api.yourproduct.com
+  - url: https://staging.api.henosis.com
     description: Staging
+  - url: http://localhost:8080
+    description: Local Development
 
 paths:
+
   /v1/invoices/convert:
     post:
-      summary: Convert canonical invoice JSON to target format (xrechnung | ubl | facturx)
+      summary: Convert canonical InvoiceV1 JSON into XML (XRechnung, UBL, or Factur-X)
+      description: |
+        Converts a canonical invoice JSON document (InvoiceV1) into one of the supported
+        XML invoice formats using predefined mapping rules.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required:
-                - target
-                - invoice
+              required: [target, invoice]
               properties:
                 target:
                   type: string
@@ -35,13 +42,13 @@ paths:
                   properties:
                     pretty:
                       type: boolean
-                      description: Pretty-print XML
+                      description: Pretty-print the generated XML
                     embedPdf:
                       type: boolean
-                      description: For facturx embed PDF
+                      description: Embed PDF (Factur-X only)
       responses:
         '200':
-          description: Conversion result
+          description: Successful conversion
           content:
             application/json:
               schema:
@@ -55,31 +62,36 @@ paths:
                     example: xrechnung
                   content:
                     type: string
-                    description: Base64 or plain XML content depending on client preference
+                    description: Base64 or plain XML output
                   checksum:
                     type: string
-                    example: sha256:abcd...
+                    example: sha256:abcd1234ef...
+
   /v1/invoices/validate:
     post:
-      summary: Validate JSON or XML against schema and business rules
+      summary: Validate JSON or XML invoice content
+      description: |
+        Validates InvoiceV1 (JSON) against JSON Schema and validates XML against
+        UBL 2.1 / XRechnung XSDs and business rule checks.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required:
-                - type
-                - content
+              required: [type, content]
               properties:
                 type:
                   type: string
                   enum: [json, xml]
+                  description: Content type to validate
                 content:
                   type: string
+                  description: Raw JSON or XML
                 profile:
                   type: string
                   enum: [xrechnung, ubl]
+                  description: XML validation profile (if type=xml)
       responses:
         '200':
           description: Validation result
@@ -98,24 +110,26 @@ paths:
                     type: array
                     items:
                       type: string
+
   /v1/invoices/parse:
     post:
-      summary: Parse UBL/XML invoice into canonical JSON (InvoiceV1)
+      summary: Parse UBL/XRechnung XML into canonical InvoiceV1 JSON
+      description: |
+        Accepts UBL 2.1 or XRechnung XML and converts it back into the canonical InvoiceV1 JSON schema.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required:
-                - content
+              required: [content]
               properties:
                 content:
                   type: string
-                  description: UBL/XML invoice content
+                  description: Raw XML invoice content
       responses:
         '200':
-          description: Parse result
+          description: Parsed InvoiceV1 JSON
           content:
             application/json:
               schema:
@@ -125,10 +139,13 @@ paths:
                     $ref: '#/components/schemas/InvoiceV1'
                   warnings:
                     type: array
-                    items: { type: string }
+                    items:
+                      type: string
+
 
 components:
   schemas:
+
     InvoiceV1:
       title: Universal Invoice Schema V1.1
       type: object
@@ -141,6 +158,8 @@ components:
         - lines
         - monetaryTotals
       properties:
+
+        # Header
         ublVersion:
           type: string
           default: "2.1"
@@ -169,6 +188,7 @@ components:
           type: string
         accountingCost:
           type: string
+
         invoicePeriod:
           type: object
           properties:
@@ -178,15 +198,19 @@ components:
             endDate:
               type: string
               format: date
+
         orderReference:
           type: object
           properties:
-            id: { type: string }
+            id:
+              type: string
+
         contractReference:
           type: object
           properties:
             id: { type: string }
             documentType: { type: string }
+
         additionalDocuments:
           type: array
           items:
@@ -196,6 +220,8 @@ components:
               documentType: { type: string }
               uri: { type: string }
               embeddedBase64: { type: string }
+
+        # Seller
         seller:
           type: object
           required: [name, address]
@@ -241,6 +267,8 @@ components:
                 email: { type: string }
                 telephone: { type: string }
                 fax: { type: string }
+
+        # Buyer
         buyer:
           type: object
           required: [name, address]
@@ -275,8 +303,8 @@ components:
                 additionalStreet: { type: string }
                 postbox: { type: string }
                 buildingNumber: { type: string }
-                city: { type: string }
                 department: { type: string }
+                city: { type: string }
                 postalCode: { type: string }
                 countrySubentity: { type: string }
                 country: { type: string }
@@ -286,6 +314,8 @@ components:
                 email: { type: string }
                 telephone: { type: string }
                 fax: { type: string }
+
+        # Payee
         payee:
           type: object
           properties:
@@ -295,6 +325,8 @@ components:
               type: object
               properties:
                 companyId: { type: string }
+
+        # Delivery
         delivery:
           type: object
           properties:
@@ -310,6 +342,8 @@ components:
                 postalCode: { type: string }
                 countrySubentity: { type: string }
                 country: { type: string }
+
+        # Payment
         payment:
           type: object
           properties:
@@ -320,6 +354,8 @@ components:
             iban: { type: string }
             bic: { type: string }
             termsNote: { type: string }
+
+        # Allowances / Charges
         allowancesCharges:
           type: array
           items:
@@ -328,6 +364,8 @@ components:
               chargeIndicator: { type: boolean }
               reason: { type: string }
               amount: { type: number }
+
+        # Tax Summary
         taxSummary:
           type: array
           items:
@@ -337,9 +375,11 @@ components:
               category: { type: string }
               taxableAmount: { type: number }
               taxAmount: { type: number }
+
+        # Monetary Totals 
         monetaryTotals:
           type: object
-          required: [taxExclusiveAmount, taxAmount, payableAmount]
+          required: [taxExclusiveAmount, payableAmount]
           properties:
             lineExtensionAmount: { type: number }
             taxExclusiveAmount: { type: number }
@@ -348,8 +388,9 @@ components:
             chargeTotalAmount: { type: number }
             prepaidAmount: { type: number }
             roundingAmount: { type: number }
-            taxAmount: { type: number }
             payableAmount: { type: number }
+
+        # Line Items
         lines:
           type: array
           items:
@@ -374,3 +415,4 @@ components:
                 properties:
                   priceAmount: { type: number }
                   baseQuantity: { type: number }
+
